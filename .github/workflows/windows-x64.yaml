@@ -44,7 +44,7 @@ jobs:
         with:
           # currently has an issue with CUDA 13.4
           version: '${{ matrix.cuda-version }}'
-          method: 'auto'
+          method: 'local'
 
       - name: Install Vulkan SDK
         #uses: humbletim/install-vulkan-sdk@v1.2
