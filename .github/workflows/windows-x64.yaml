@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-2022]
-        cuda-version: ["13.4.2", "12.9.2"]
+        cuda-version: ["13.4", "12.9"]
 
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
         uses: mjun0812/setup-cuda@v1
         with:
           version: '${{ matrix.cuda-version }}'
-          method: 'local'
+          method: 'auto'
 
       - name: Install Vulkan SDK
         #uses: humbletim/install-vulkan-sdk@v1.2
