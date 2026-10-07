@@ -42,7 +42,7 @@ jobs:
       - name: Setup CUDA Toolkit
         uses: mjun0812/setup-cuda@v1
         with:
-          cuda: '${{ matrix.cuda-version }}'
+          version: '${{ matrix.cuda-version }}'
           method: 'local'
 
       - name: Install Vulkan SDK
