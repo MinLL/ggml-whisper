@@ -21,7 +21,7 @@
 .gitattributes text eol=crlf
 
 # vcpkg port patches must stay LF in the worktree: git apply rejects CR in context
-vcpkg-ports/**/*.diff text eol=lf
+*.diff text eol=lf
 
 # plugin files
 *.dll binary
