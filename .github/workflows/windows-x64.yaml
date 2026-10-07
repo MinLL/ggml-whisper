@@ -13,7 +13,7 @@ permissions:
 env:
   ARCHIVE_VERSION:
     |- # Enter release tag name or version name in workflow_dispatch
-    ${{ github.event.release.tag_name || github.event.inputs.version || '1.0.0' }}
+    ${{ github.event.release.tag_name || github.event.inputs.version || '1.0.3' }}
 
 jobs:
   windows_x64:
@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-2022]
-        cuda-version: ["13.3.1", "12.9.2"]
+        cuda-version: ["13.4.2", "12.9.2"]
 
     steps:
       - name: Checkout
@@ -40,18 +40,16 @@ jobs:
           arch: x64
 
       - name: Setup CUDA Toolkit
-        uses: Jimver/cuda-toolkit@v0.2.36
+        uses: mjun0812/setup-cuda@v1
         with:
           cuda: '${{ matrix.cuda-version }}'
           method: 'local'
-          use-local-cache: true
-          use-github-cache: true
 
       - name: Install Vulkan SDK
         #uses: humbletim/install-vulkan-sdk@v1.2
         uses: humbletim/install-vulkan-sdk@033219e2d69dd4d3e873e217eb385fdd4b4438f4
         with:
-          version: 1.4.357.0
+          version: 1.4.363.0
           cache: true
 
       - name: Restore vcpkg Binary Cache
@@ -80,7 +78,7 @@ jobs:
           if (-not (Test-Path (Join-Path $cudaRoot "bin\nvcc.exe"))) {
             throw "CUDA toolkit with nvcc.exe not found (looked at: $cudaRoot)"
           }
-          $vulkanSdk = if ($env:VULKAN_SDK) { $env:VULKAN_SDK } else { "C:\VulkanSDK\1.4.357.0" }
+          $vulkanSdk = if ($env:VULKAN_SDK) { $env:VULKAN_SDK } else { "C:\VulkanSDK\1.4.363.0" }
           if (-not (Test-Path $vulkanSdk)) {
             throw "Vulkan SDK not found at: $vulkanSdk"
           }
