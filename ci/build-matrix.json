@@ -1,0 +1,16 @@
+{
+  "$comment": [
+    "Single source for the CI build matrix (.github/workflows/windows-x64.yaml).",
+    "Archive names are not listed here: CMakeLists.txt derives them from the port versions",
+    "(vcpkg-ports/ggml/vcpkg.json, vcpkg-ports/whisper-cpp/vcpkg.json) and the CUDA major.minor.",
+    "cuda: full toolkit versions, installed from NVIDIA's redistributable archives",
+    "  (https://developer.download.nvidia.com/compute/cuda/redist/redistrib_<version>.json).",
+    "  Each one yields ggml-windows-x64-<ggml>-cuda<major.minor>.zip and cudart-windows-x64-v<major.minor>.zip.",
+    "whisper_from_cuda: the variant whose whisper-windows-x64-<whisper>.zip is published. whisper.dll and",
+    "  parakeet.dll only import ggml.dll/ggml-base.dll (GGML_BACKEND_DL), so the build is CUDA-agnostic.",
+    "vulkan_sdk: LunarG Vulkan SDK version installed on the runner."
+  ],
+  "cuda": ["12.9.2", "13.3.1"],
+  "whisper_from_cuda": "13.3",
+  "vulkan_sdk": "1.4.363.0"
+}
