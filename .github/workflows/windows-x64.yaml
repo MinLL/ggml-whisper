@@ -53,6 +53,8 @@ jobs:
         with:
           version: '${{ matrix.cuda-version }}'
           method: 'local'
+          cache-toolkit: true
+          
 
       - name: Install Vulkan SDK
         #uses: humbletim/install-vulkan-sdk@v1.2
