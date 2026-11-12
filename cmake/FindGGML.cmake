@@ -69,7 +69,7 @@ else()
     set(GGML_VULKAN_AVAILABLE FALSE)
 endif()
 
-if (GGML_VULKAN_AVAILABLE)
+if(GGML_VULKAN_AVAILABLE)
     ggml_find_backend_dll(GGML_VULKAN_RUNTIME_DLL "vulkan-1.dll")
     if(GGML_VULKAN_RUNTIME_DLL)
         message(STATUS "  - Vulkan runtime available (vulkan-1.dll)")
@@ -146,6 +146,9 @@ endif()
 
 if(GGML_VULKAN_AVAILABLE)
     list(APPEND GGML_DEPLOY_DLLS "${GGML_VULKAN_DLL}")
+endif()
+if(GGML_VULKAN_AVAILABLE AND GGML_VULKAN_RUNTIME_DLL)
+    list(APPEND GGML_DEPLOY_DLLS "${GGML_VULKAN_RUNTIME_DLL}")
 endif()
 
 if(GGML_OPENCL_AVAILABLE)
