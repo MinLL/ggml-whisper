@@ -17,9 +17,6 @@ jobs:
   windows_x64:
     name: Build ggml / whisper.cpp libs for Windows x64 on ${{ matrix.os }} (CUDA ${{ matrix.cuda-version }})
     runs-on: ${{ matrix.os }}
-    env:
-      # Enable sccache's GitHub Actions cache backend
-      SCCACHE_GHA_ENABLED: "on"
 
     strategy:
       fail-fast: false
@@ -30,13 +27,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
-      - name: Configure sccache
-        uses: actions/github-script@v9
-        with:
-          script: |
-            core.exportVariable('ACTIONS_RESULTS_URL', process.env.ACTIONS_RESULTS_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v3
