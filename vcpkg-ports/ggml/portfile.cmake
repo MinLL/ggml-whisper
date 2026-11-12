@@ -16,6 +16,10 @@ vcpkg_from_github(
         # cpu: add fused snake activation (mul -> sin -> sqr -> mul -> add)
         # https://github.com/ggml-org/ggml/commit/210138933b22221ced02943b7b6e4308610ab530
 
+vcpkg_replace_string("${SOURCE_PATH}/src/ggml-cpu/CMakeLists.txt"
+    "target_compile_options(\${GGML_CPU_FEATS_NAME} PRIVATE -fno-lto)"
+    "target_compile_options(\${GGML_CPU_FEATS_NAME} PRIVATE $<IF:$<CXX_COMPILER_ID:MSVC>,/GL-,-fno-lto>)"
+)
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES
@@ -98,10 +102,6 @@ if(VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic")
     vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/ggml.h" "#ifdef GGML_SHARED" "#if 1")
     vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/ggml-backend.h" "#ifdef GGML_BACKEND_SHARED" "#if 1")
 endif()
-
-vcpkg_replace_string("${SOURCE_PATH}/src/ggml-cpu/CMakeLists.txt"
-    "target_compile_options(\${GGML_CPU_FEATS_NAME} PRIVATE -fno-lto)"
-    "target_compile_options(\${GGML_CPU_FEATS_NAME} PRIVATE $<IF:$<CXX_COMPILER_ID:MSVC>,/GL-,-fno-lto>)")
 
 if("vulkan" IN_LIST FEATURES AND NOT VCPKG_CROSSCOMPILING)
     vcpkg_copy_tools(TOOL_NAMES vulkan-shaders-gen AUTO_CLEAN)
