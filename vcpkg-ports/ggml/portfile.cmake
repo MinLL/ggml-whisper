@@ -10,6 +10,7 @@ vcpkg_from_github(
         patches/pkgconfig.diff
         patches/relax-link-options.diff
         patches/vulkan-shaders-gen.diff
+        patches/vulkan-queue-fetch.diff
         patches/fused_snake.diff
 )
         # cpu: add fused snake activation (mul -> sin -> sqr -> mul -> add)
