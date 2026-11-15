@@ -1,0 +1,25 @@
+Backport of ggml-org/whisper.cpp b1535f5fb163f4443804888f7be980621226cb15
+("parakeet: use n_frame as ne[1] for rel_pos_scores"), which is not in v1.9.5.
+
+ggml 0.29.0 and later check a view against the bytes its strides actually
+reach (ggml-org/ggml 8bdd9c3fde, llama/31584). Parakeet's relative-position
+shift view declared ne[1] = pos_window (2*n_frame - 1) rows, which reaches past
+its source under that check, so parakeet_init_state aborts with
+GGML_ASSERT(view_src == NULL || view_size == 0 || view_size + view_offs <= ggml_nbytes(view_src)).
+Only n_frame rows are ever read, so the view is narrowed to them.
+
+Drop this patch when the port moves to a whisper.cpp release that contains it.
+
+diff --git a/src/parakeet.cpp b/src/parakeet.cpp
+index ed66382..50dd657 100644
+--- a/src/parakeet.cpp
++++ b/src/parakeet.cpp
+@@ -1855,7 +1855,7 @@ static struct ggml_cgraph * parakeet_build_graph_encode(parakeet_context & pctx,
+                     size_t offset = rel_pos_scores->nb[0] * (center+1);
+ 
+                     rel_pos_scores = ggml_view_3d(ctx0, rel_pos_scores,
+-                                                  n_frame, pos_window, n_head_cur,
++                                                  n_frame, n_frame, n_head_cur,
+                                                   (pos_window) * 4,
+                                                   rel_pos_scores->nb[2],
+                                                   offset);
