@@ -7,6 +7,7 @@ vcpkg_from_github(
     PATCHES
         cmake-config.diff
         pkgconfig.diff
+        parakeet-rel-pos-view.diff
 )
 file(REMOVE_RECURSE "${SOURCE_PATH}/ggml")
 vcpkg_find_acquire_program(PKGCONFIG)
